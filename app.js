@@ -6,9 +6,13 @@ const primaryOperationDisplay = document.querySelector(
 const secondaryOperationDisplay = document.querySelector(
    "[data-secondary-operand]"
 );
-const OperationDisplay = document.querySelector("[data-operation]");
+const operationDisplay = document.querySelector("[data-operation]");
 
-const calculator = new Calculator();
+const calculator = new Calculator(
+   primaryOperationDisplay,
+   secondaryOperationDisplay,
+   OperationDisplay
+);
 document.addEventListener("click", (e) => {
    if (e.target.matches("[data-all-clear]")) {
       calculator.clear();
