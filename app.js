@@ -26,7 +26,7 @@ document.addEventListener("click", (e) => {
    if (e.target.matches("[data-operation]")) {
       calculator.chooseOperation(e.target.textContent);
    }
-   if (e.target.matches("[data-equal]")) {
+   if (e.target.matches("[data-equals]")) {
       calculator.evaluate();
    }
 });

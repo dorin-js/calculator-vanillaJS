@@ -4,50 +4,88 @@ export default class Calculator {
       secondaryOperationDisplay,
       operationDisplay
    ) {
-      this.primaryOperationDisplay = primaryOperationDisplay;
-      this.secondaryOperationDisplay = secondaryOperationDisplay;
-      this.operationDisplay = operationDisplay;
+      this.#primaryOperationDisplay = primaryOperationDisplay;
+      this.#secondaryOperationDisplay = secondaryOperationDisplay;
+      this.#operationDisplay = operationDisplay;
       this.clear();
    }
+   #primaryOperationDisplay;
+   #secondaryOperationDisplay;
+   #operationDisplay;
+
    get primaryOperand() {
-      return parseFloat(this.primaryOperationDisplay.dataset.value);
+      return parseFloat(this.#primaryOperationDisplay.dataset.value);
    }
    set primaryOperand(value) {
-      this.primaryOperationDisplay.dataset.value = value ?? "";
-      this.primaryOperationDisplay.textContent = displayNumber(value);
+      this.#primaryOperationDisplay.dataset.value = value ?? "";
+      this.#primaryOperationDisplay.textContent = displayNumber(value);
+   }
+   get secondaryOperand() {
+      return parseFloat(this.#secondaryOperationDisplay.dataset.value);
    }
    set secondaryOperand(value) {
-      this.secondaryOperationDisplay.dataset.value = value ?? "";
-      this.secondaryOperationDisplay.textContent = displayNumber(value);
+      this.#secondaryOperationDisplay.dataset.value = value ?? "";
+      this.#secondaryOperationDisplay.textContent = displayNumber(value);
    }
-   set operand(value) {
-      this.operationDisplay.textContent = value;
+   get operation() {
+      return this.#operationDisplay.textContent;
+   }
+   set operation(value) {
+      this.#operationDisplay.textContent = value;
    }
    addDigit(digit) {
       if (
          digit === "." &&
-         this.primaryOperationDisplay.dataset.value.includes(".")
+         this.#primaryOperationDisplay.dataset.value.includes(".")
       )
          return;
       if (this.primaryOperand === 0) {
          this.primaryOperand = digit;
          return;
       }
-      this.primaryOperand = this.primaryOperationDisplay.dataset.value + digit;
+      this.primaryOperand = this.#primaryOperationDisplay.dataset.value + digit;
    }
    removeDigit() {
-      const numberString = this.primaryOperationDisplay.dataset.value;
-      // if (this.primaryOperand === 0) return;
+      const numberString = this.#primaryOperationDisplay.dataset.value;
       if (numberString.length <= 1) {
          this.primaryOperand = 0;
          return;
       }
       this.primaryOperand = numberString.substring(0, numberString.length - 1);
    }
+   chooseOperation(operationInput) {
+      if (this.operation !== "") return;
+      this.operation = operationInput;
+      this.secondaryOperand = this.primaryOperand;
+      this.primaryOperand = 0;
+   }
+   evaluate() {
+      let result;
+      switch (this.operation) {
+         case "*":
+            result = this.secondaryOperand * this.primaryOperand;
+            break;
+         case "÷":
+            result = this.secondaryOperand / this.primaryOperand;
+            break;
+         case "+":
+            result = this.secondaryOperand + this.primaryOperand;
+            break;
+         case "-":
+            result = this.secondaryOperand - this.primaryOperand;
+            break;
+         default:
+            return;
+      }
+      this.clear();
+      this.primaryOperand = result;
+      console.log(result);
+      return result;
+   }
    clear() {
       this.primaryOperand = 0;
       this.secondaryOperand = "";
-      this.operand = "";
+      this.operation = "";
    }
 }
 
