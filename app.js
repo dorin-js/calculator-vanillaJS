@@ -1,4 +1,4 @@
-import Calculator from "./calculator";
+import Calculator from "./calculator.js";
 
 const primaryOperationDisplay = document.querySelector(
    "[data-primary-operand]"
@@ -11,7 +11,7 @@ const operationDisplay = document.querySelector("[data-operation]");
 const calculator = new Calculator(
    primaryOperationDisplay,
    secondaryOperationDisplay,
-   OperationDisplay
+   operationDisplay
 );
 document.addEventListener("click", (e) => {
    if (e.target.matches("[data-all-clear]")) {
